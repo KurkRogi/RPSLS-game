@@ -24,14 +24,13 @@
         </header>
         <nav>
             <ul>
-                <li><Game Rules/li>
+                <li>Game Rules</li>
                 <li>Your Stats</li>
             </ul>
         </nav>
         <section>
-            <label for="opp-select">Choose your opponent</label>
-            <select name="opponent" id="opp-select">
-                <option value="">Please select</option>
+            <label for="opp-select-game">Choose your opponent</label>
+            <select name="opponent" id="opp-select-game">
                 <option value="spock">Mr Spock</option>
                 <option value="sheldon">Dr Sheldon Cooper</option>
                 <option value="random">Prof. Randomius</option>
@@ -50,8 +49,43 @@
         <section>
             <h2>Your opponent threw</h2>
             <div id="icon-opponent"><i class="far fa-hand-rock"></i></div>
-            <h2>Game outcome</h2>
+            <p>Game outcome</p>
         </section>
+    </div>
+    <div id="rules-screen">
+        <div class="close-icon"><i class="far fa-times-circle"></i></div>
+        <header>
+            <h1>Game Rules</h1>
+            <p>The game is simple! You choose your throw, the oponent choses his and let the smarter win! Do you think you can win against Dr Cooper? DO YOU!</p>
+        </header>
+        <section>
+            <h2>The rules are as follows:</h2>
+            <ul>
+                <li>Scissors cuts paper</li>
+                <li>Paper covers rock</li>
+                <li>Rock crushes lizard</li>
+                <li>Lizard poisons Spock</li>
+                <li>Spock smashes scissors</li>
+                <li>Scissors decapitates lizard</li>
+                <li>Lizard eats paper</li>
+                <li>Paper disproves Spock</li>
+                <li>Spock vaporizes rock</li>
+                <li>Rock crushes scissors</li>
+            </ul>
+            <img src="./assets/images/RPSLS-game-diagram.svg" alt="Diagram depicting game outcomes">
+        </section>
+    </div>
+    <div id="stats-screen">
+        <div class="close-icon"><i class="far fa-times-circle"></i></div>
+        <h2>You game statistics are as follows:</h2>
+        <div>Percentage of won games graph here</div>
+        <label for="opp-select-stats">Opponent</label>
+            <select name="opponent" id="opp-select-stats">
+                <option value="spock">Mr Spock</option>
+                <option value="sheldon">Dr Sheldon Cooper</option>
+                <option value="random">Prof. Randomius</option>
+            </select>
+        <div>Winning hands graph</div>
     </div>
 </body>
 <script src="./assets/js/script.js"></script>
