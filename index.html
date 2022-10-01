@@ -17,7 +17,42 @@
     <title>RPSLS Game</title>
 </head>
 <body>
- 
+    <div id="game-screen">
+        <header>
+            <h1>RPSLS Game</h1>
+            <p>Play Rock - Paper - Scisors - Lizard - Spock Game against 3 different oponents!</p>
+        </header>
+        <nav>
+            <ul>
+                <li><Game Rules/li>
+                <li>Your Stats</li>
+            </ul>
+        </nav>
+        <section>
+            <label for="opp-select">Choose your opponent</label>
+            <select name="opponent" id="opp-select">
+                <option value="">Please select</option>
+                <option value="spock">Mr Spock</option>
+                <option value="sheldon">Dr Sheldon Cooper</option>
+                <option value="random">Prof. Randomius</option>
+            </select>
+        </section>
+        <section>
+            <h2>Choose your throw</h2>
+            <ul id="desision">
+                <li id="icon-rock"><i class="far fa-hand-rock"></i></li>
+                <li id="icon-paper"><i class="far fa-hand-paper"></i></li>
+                <li id="icon-scisors"><i class="far fa-hand-scissors"></i></li>
+                <li id="icon-lizard"><i class="far fa-hand-lizard"></i></li>
+                <li id="icon-spock"><i class="far fa-hand-spock"></i></li>
+            </ul>
+        </section>
+        <section>
+            <h2>Your opponent threw</h2>
+            <div id="icon-opponent"><i class="far fa-hand-rock"></i></div>
+            <h2>Game outcome</h2>
+        </section>
+    </div>
 </body>
 <script src="./assets/js/script.js"></script>
 </html>
