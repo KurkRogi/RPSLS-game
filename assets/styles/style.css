@@ -188,7 +188,28 @@ nav li:last-of-type:hover {
 /* Rules screen styling */
 
 #rules-screen, #stats-screen {
-    position: relative;
+    position: absolute;
+    top: 0;
+    display: none;
+    background-color: var(--background-color);
+}
+
+#rules-screen {
+    left: -10000px;
+}
+
+#rules-screen.visable {
+    left: -0;
+    display: block;
+}
+
+#stats-screen {
+    right: 10000px;
+}
+
+#stats-screen.visable {
+    right: 0;
+    display: block;
 }
 
 #rules-screen h1, #stats-screen h1 {
@@ -198,6 +219,10 @@ nav li:last-of-type:hover {
 .close-icon {
     font-size: 2rem;
     text-align: right;
+}
+
+.close-icon:hover {
+    cursor: pointer;
 }
 
 #rules-screen img {
