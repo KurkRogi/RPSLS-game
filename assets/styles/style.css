@@ -62,9 +62,9 @@ strong {
 }
 
 .screen {
+    min-height: 100vh;
     min-width: 320px;
     max-width: 480px;
-    min-height: 100vh;
     margin: 0 auto;
     padding: 1rem;
     /* Visual aid only - remove when done */
@@ -188,27 +188,28 @@ nav li:last-of-type:hover {
 /* Rules screen styling */
 
 #rules-screen, #stats-screen {
+    box-sizing: border-box;
     position: absolute;
     top: 0;
-    display: none;
     background-color: var(--background-color);
 }
 
 #rules-screen {
     left: -10000px;
+    transition: left 500ms;
 }
 
-#rules-screen.visable {
-    left: -0;
-    display: block;
+#rules-screen.visible {
+    left: 0px;
 }
 
 #stats-screen {
-    right: 10000px;
+    right: -10000px;
+    transition: right 500ms;
 }
 
-#stats-screen.visable {
-    right: 0;
+#stats-screen.visible {
+    right: 0px;
     display: block;
 }
 
