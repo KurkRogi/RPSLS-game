@@ -11,7 +11,10 @@ font-family: 'Orbitron', sans-serif; 500 & 700
     --accent-color: hsla(20, 100%, 60%, 1);
     --background-color: hsla(0, 0%, 85%, 1);
     --main-color: hsla(204, 42%, 27%, 1);
+    --text-color: hsla(0, 0%, 30%, 1);
 }
+
+/* Styling of common elements */
 
 body {
     margin: 0;
@@ -21,13 +24,163 @@ body {
     font-weight: 400;
     letter-spacing: 1px;
     line-height: 1.4;
-    font-size: 1.2rem;
     background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+select {
+    font-family: "Inter Tight", sans-serif;
+    font-weight: 400;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    color: var(--text-color);
 }
 
 h1, h2 {
     font-family: 'Orbitron', sans-serif;
     font-weight: 500;
-    line-height: 1.1;
+    line-height: 1.3;
     color: var(--main-color);
+    text-align: center;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+h2 {
+    font-size: 1.3rem;
+}
+
+p {
+    text-align: center;
+}
+
+strong {
+    font-weight: 600;
+    color: var(--main-color);
+}
+
+.screen {
+    min-width: 320px;
+    max-width: 480px;
+    height: 100vh;
+    margin: 0 auto;
+    padding: 1rem;
+    /* Visual aid only - remove when done */
+    border: 1px solid red;
+}
+
+/* Between screen navigation */
+
+nav ul {
+    list-style: none;
+    width: 100%;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin: 2rem 0;
+}
+
+nav li {
+    padding: 1rem 2rem;
+    background-color: var(--main-color);
+    color: var(--background-color);
+    transition: transform 125ms;
+    width: max-content;
+}
+
+nav li:hover {
+    cursor: pointer;
+}
+
+nav li:first-of-type {
+    transform: translateX(-1rem);
+    padding-right: 2.5rem;
+    border-bottom-right-radius: 3rem;
+    border-top-right-radius: 3rem;
+    background: linear-gradient(135deg, var(--ming) 0%, var(--main-color) 100%);
+}
+
+nav li:first-of-type:hover {
+    transform: translateX(-0.5rem) scale(120%);
+}
+
+nav li:last-of-type {
+    transform: translateX(1rem);
+    padding-left: 2.5rem;
+    border-bottom-left-radius: 3rem;
+    border-top-left-radius: 3rem;
+    background: linear-gradient(135deg, var(--main-color) 0%, var(--ming) 100%);
+
+}
+
+nav li:last-of-type:hover {
+    transform: translateX(0.5rem) scale(120%);
+}
+
+/* Opponent selection styling */
+
+#oponent-selection {
+    width: max-content;
+    margin: 0 auto;
+}
+
+#oponent-selection label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+/* Player's decision section */
+#players-choice {
+    margin-top: 2rem;
+}
+
+#decision {
+    list-style: none;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0;
+}
+
+#decision li {
+    display: inline-block;
+    font-size: 2rem;
+    line-height: 3rem;
+    color: var(--main-color);
+    width: 3rem;
+    height: 3rem;
+    border: 3px solid var(--cordovan);
+    border-radius: 50%;
+    text-align: center;
+    transition: transform 125ms;
+}
+
+#decision li:hover {
+    cursor: pointer;
+    transform: scale(120%);
+}
+
+/* Opponent trow section */
+
+#opponent-choice {
+    margin-top: 2rem;
+    width: 100%;
+}
+
+#icon-opponent {
+    display: block;
+    font-size: 2rem;
+    line-height: 3rem;
+    color: var(--cordovan);
+    width: 3rem;
+    height: 3rem;
+    border: 3px solid var(--main-color);
+    border-radius: 50%;
+    text-align: center;
+    margin: 0 auto;
 }

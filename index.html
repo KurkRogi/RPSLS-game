@@ -17,10 +17,10 @@
     <title>RPSLS Game</title>
 </head>
 <body>
-    <div id="game-screen">
+    <div id="game-screen" class="screen">
         <header>
             <h1>RPSLS Game</h1>
-            <p>Play Rock - Paper - Scisors - Lizard - Spock Game against 3 different oponents!</p>
+            <p>Play <strong>Rock - Paper - Scisors<br> - Lizard - Spock Game</strong> against 3 different oponents!</p>
         </header>
         <nav>
             <ul>
@@ -28,17 +28,17 @@
                 <li>Your Stats</li>
             </ul>
         </nav>
-        <section>
-            <label for="opp-select-game">Choose your opponent</label>
+        <section id="oponent-selection">
+            <label for="opp-select-game">Choose your opponent</label><br>
             <select name="opponent" id="opp-select-game">
                 <option value="spock">Mr Spock</option>
                 <option value="sheldon">Dr Sheldon Cooper</option>
                 <option value="random">Prof. Randomius</option>
             </select>
         </section>
-        <section>
+        <section id="players-choice">
             <h2>Choose your throw</h2>
-            <ul id="desision">
+            <ul id="decision">
                 <li id="icon-rock"><i class="far fa-hand-rock"></i></li>
                 <li id="icon-paper"><i class="far fa-hand-paper"></i></li>
                 <li id="icon-scisors"><i class="far fa-hand-scissors"></i></li>
@@ -46,13 +46,13 @@
                 <li id="icon-spock"><i class="far fa-hand-spock"></i></li>
             </ul>
         </section>
-        <section>
+        <section id="opponent-choice">
             <h2>Your opponent threw</h2>
             <div id="icon-opponent"><i class="far fa-hand-rock"></i></div>
             <p>Game outcome</p>
         </section>
     </div>
-    <div id="rules-screen">
+    <div id="rules-screen" class="screen">
         <div class="close-icon"><i class="far fa-times-circle"></i></div>
         <header>
             <h1>Game Rules</h1>
@@ -75,7 +75,7 @@
             <img src="./assets/images/RPSLS-game-diagram.svg" alt="Diagram depicting game outcomes">
         </section>
     </div>
-    <div id="stats-screen">
+    <div id="stats-screen" class="screen">
         <div class="close-icon"><i class="far fa-times-circle"></i></div>
         <h2>You game statistics are as follows:</h2>
         <div>Percentage of won games graph here</div>
