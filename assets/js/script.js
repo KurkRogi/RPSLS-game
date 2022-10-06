@@ -75,7 +75,6 @@ in game decision section, receives event object
 */
 
 function gameThrow (e) {
-    console.log(this);
 
     // Find players throw number
     let playersThrow = icons.indexOf(this.id);
@@ -126,12 +125,27 @@ function oppReply (selectedOpponent) {
     
     // Spock's logic to play agains most common player throw
     else {
-        return "lizard"
+
+        // winTable delivers winning throws for key throw
+        let winTable = {
+            0: [1, 4], // rock is bitten by paper & spock
+            1: [2, 3], // paper is bitten by scisors & lizard
+            2: [0, 4], // scisors is bitten by rock & spock
+            3: [0, 2], // lizard is bitten by rock & scisors
+            4: [3, 1], // and spock is bitten by paper & lizard
+        }
+
+        // Find index of most common player's throw
+        let mostCommonThrow = stats.indexOf(Math.max(...stats));
+        console.log("Spock thinks the player will play " + numberToName(mostCommonThrow));
+
+        // Select randomly one of the winning throws
+        return numberToName(winTable[mostCommonThrow][Math.floor(Math.random() * 2)]);
     }
 }
 
 function numberToName (number) {
-    if (number < 4) return names[number];
+    if (number < 5) return names[number];
     else return "rock";
 }
 
