@@ -8,6 +8,7 @@ var randoms;
 var stats;
 
 const names = ["rock", "paper", "scisors", "lizard", "spock"];
+const icons = ["icon-rock", "icon-paper", "icon-scisors", "icon-lizard", "icon-spock"];
 
 window.addEventListener("load", initLoop);
 
@@ -46,6 +47,10 @@ function initLoop() {
         randoms = generateLocalRandoms(RANDOM_BATCH)
         areRandomsLocal = true;
     }
+
+    // Create stats array if not in local storage
+
+    if (stats === null) stats = [0, 0, 0, 0, 0];
 }
 
 /*
@@ -69,9 +74,22 @@ in game decision section, receives event object
 
 function gameThrow (e) {
     
+    // Find players throw number
+    let playersThrow = icons.indexOf(e.target.parentElement.id);
+    
+    // Increase corresponding element of the stats array
+    stats[playersThrow] += 1;
+
+    // ... and convert to string for easier coding ;-)
+    playersThrow = numberToName(playersThrow);
+
+    console.log("Current stats is: " + stats);
+    console.log("Player trew: " + playersThrow);
+    
+    
     // Find out which opponent was selected for this throw
     // and call oppReply to apply corresponding strategy
-    console.log(oppReply(document.getElementById("opp-select-game").value));    
+    console.log("Opponent threw: " + oppReply(document.getElementById("opp-select-game").value));    
 }
 
 // Make decision on opponent's throw and return decision
