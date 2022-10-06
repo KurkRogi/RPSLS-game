@@ -33,8 +33,10 @@ function initLoop() {
     }
 
     // Attach event handler to players decision buttons
-
-    document.getElementById("decision").addEventListener("click", gameThrow);
+    for (let i of document.getElementById("decision").children) {
+        i.addEventListener("click", gameThrow);
+    }
+ 
 
     // Pull data from local storage
 
@@ -73,9 +75,10 @@ in game decision section, receives event object
 */
 
 function gameThrow (e) {
-    
+    console.log(this);
+
     // Find players throw number
-    let playersThrow = icons.indexOf(e.target.parentElement.id);
+    let playersThrow = icons.indexOf(this.id);
     
     // Increase corresponding element of the stats array
     stats[playersThrow] += 1;
@@ -84,7 +87,7 @@ function gameThrow (e) {
     playersThrow = numberToName(playersThrow);
 
     console.log("Current stats is: " + stats);
-    console.log("Player trew: " + playersThrow);
+    console.log("Player threw: " + playersThrow);
     
     
     // Find out which opponent was selected for this throw
