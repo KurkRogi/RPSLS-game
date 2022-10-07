@@ -1,11 +1,12 @@
 
 // Global variables
 
-const RANDOM_BATCH = 100;
+const RANDOM_BATCH = 5;
 const RANDOM_ORG_URL = `https://www.random.org/integers/`;
 
 var randoms;
 var stats;
+var localRandoms = true;
 
 const names = ["rock", "paper", "scisors", "lizard", "Spock"];
 const icons = ["icon-rock", "icon-paper", "icon-scisors", "icon-lizard", "icon-spock"];
@@ -56,13 +57,9 @@ function initLoop() {
     randoms = JSON.parse(window.localStorage.getItem('randoms'));
     stats = JSON.parse(window.localStorage.getItem('stats'));
 
-    // If there are no randoms generate local set
-
-    if (randoms === null) {
-        randoms = generateLocalRandoms(RANDOM_BATCH)
-        areRandomsLocal = true;
-    }
-
+    // If there are no randoms get some from random.org
+    if (randoms === null) aquireRandoms(RANDOM_BATCH);
+   
     // Create stats array if not in local storage
 
     if (stats === null) stats = [0, 0, 0, 0, 0];
@@ -87,7 +84,7 @@ Main game logic routine called from Event Handler on icons
 in game decision section, receives event object
 */
 
-function gameThrow (e) {
+function gameThrow () {
 
     // Find players throw number
     let playersThrow = icons.indexOf(this.id);
@@ -120,8 +117,6 @@ function gameThrow (e) {
     }
 
     messageContainer.innerHTML = outcomeMessage;
-
-
 }
 
 // Make decision on opponent's throw and return decision
@@ -136,21 +131,7 @@ function oppReply (selectedOpponent) {
     // Random throw logic
     else if (selectedOpponent === "random") {
         
-        switch (Math.floor(Math.random() * 5)) {
-            case 0:
-                return "rock";
-            case 1:
-            return "paper";
-            case 2:
-                return "scisors";
-            case 3:
-            return "lizard";
-            case 4:
-                return "Spock";
-        
-            default:
-                return "rock";
-        }
+        return numberToName(localRandoms ? (Math.floor(Math.random() * 5)) : getRealRandom());
     }
     
     // Spock's logic to play agains most common player throw
@@ -174,3 +155,46 @@ function nameToNumber (name) {
     if (index === -1) return 0;
     else return index;
 }
+
+// Aquire a batch of random numbers from random.org
+
+function aquireRandoms (numberToGet) {
+    
+    request = new XMLHttpRequest();
+
+    request.addEventListener("load", processResponse);
+    request.open("GET", `${RANDOM_ORG_URL}?num=${numberToGet}&min=0&max=4&col=1&base=10&format=plain&rnd=new`);
+    
+    // Calling random.org for a batch of random numbers
+    request.send();
+
+    function processResponse() {
+        if (this.status === 200) {
+            // remove white spaces from the response text, covert to array
+            // and convert array elements to integers (from strings)
+            randoms = this.responseText.trim().split("\n").map( rNumber => parseInt(rNumber));
+            localRandoms = false;
+        } else {
+            console.log("Failed to get randoms. Status " + this.status);
+        }
+    }
+}
+
+// Return number from array
+
+function getRealRandom() {
+    if (randoms.length > 1) {
+        return randoms.pop();
+    } else if (randoms.length = 1) {
+        console.log("Getting the last real random from the array");
+        localRandoms = true;
+        aquireRandoms(RANDOM_BATCH);
+        return randoms.pop();
+    } else {
+        // something went wrong scenario failsafe code
+        aquireRandoms(RANDOM_BATCH);
+        localRandoms = true;
+        return Math.floor(Math.random() * 5);
+    }
+}
+
