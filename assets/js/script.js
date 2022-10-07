@@ -7,8 +7,21 @@ const RANDOM_ORG_URL = `https://www.random.org/integers/`;
 var randoms;
 var stats;
 
-const names = ["rock", "paper", "scisors", "lizard", "spock"];
+const names = ["rock", "paper", "scisors", "lizard", "Spock"];
 const icons = ["icon-rock", "icon-paper", "icon-scisors", "icon-lizard", "icon-spock"];
+const fontAwesomeIcon = ["far fa-hand-rock", "far fa-hand-paper", "far fa-hand-scissors",
+"far fa-hand-lizard", "far fa-hand-spock"];
+
+// winTable delivers winning throws for key throw
+const winTable = {
+    0: [1, 4], // rock is bitten by paper & Spock
+    1: [2, 3], // paper is bitten by scisors & lizard
+    2: [0, 4], // scisors is bitten by rock & Spock
+    3: [0, 2], // lizard is bitten by rock & scisors
+    4: [3, 1], // and Spock is bitten by paper & lizard
+}
+
+
 
 window.addEventListener("load", initLoop);
 
@@ -78,29 +91,46 @@ function gameThrow (e) {
 
     // Find players throw number
     let playersThrow = icons.indexOf(this.id);
-    
+    let oppThrow;
+    let outcomeMessage = "";
+
     // Increase corresponding element of the stats array
     stats[playersThrow] += 1;
 
-    // ... and convert to string for easier coding ;-)
-    playersThrow = numberToName(playersThrow);
-
-    console.log("Current stats is: " + stats);
-    console.log("Player threw: " + playersThrow);
-    
-    
     // Find out which opponent was selected for this throw
     // and call oppReply to apply corresponding strategy
-    console.log("Opponent threw: " + oppReply(document.getElementById("opp-select-game").value));    
+    oppThrow = nameToNumber(oppReply(document.getElementById("opp-select-game").value));
+
+    // Display opponent's throw icon
+    document.getElementById("icon-opponent").firstChild.classList = fontAwesomeIcon[oppThrow];
+
+    // Find the outcome of throw
+
+    let messageContainer = document.getElementById("throw-outcome");
+
+    if (oppThrow === playersThrow) {
+        outcomeMessage = "It's a draw!<br><span>Please play again</span>";
+        messageContainer.classList = "result-draw";
+    } else if (winTable[playersThrow].includes(oppThrow)) {
+        outcomeMessage = `You've lost! <br><span>${numberToName(oppThrow)} beats ${numberToName(playersThrow)}</span>`;
+        messageContainer.classList = "result-defeat";
+    } else {
+        outcomeMessage = `You've won! <br><span>${numberToName(playersThrow)} beats ${numberToName(oppThrow)}</span>`;
+        messageContainer.classList = "result-win";
+    }
+
+    messageContainer.innerHTML = outcomeMessage;
+
+
 }
 
 // Make decision on opponent's throw and return decision
 
 function oppReply (selectedOpponent) {
 
-    // Sheldon's logic to always throw spock
+    // Sheldon's logic to always throw Spock
     if (selectedOpponent === "sheldon") {
-        return "spock";
+        return "Spock";
     }
     
     // Random throw logic
@@ -116,7 +146,7 @@ function oppReply (selectedOpponent) {
             case 3:
             return "lizard";
             case 4:
-                return "spock";
+                return "Spock";
         
             default:
                 return "rock";
@@ -126,18 +156,8 @@ function oppReply (selectedOpponent) {
     // Spock's logic to play agains most common player throw
     else {
 
-        // winTable delivers winning throws for key throw
-        let winTable = {
-            0: [1, 4], // rock is bitten by paper & spock
-            1: [2, 3], // paper is bitten by scisors & lizard
-            2: [0, 4], // scisors is bitten by rock & spock
-            3: [0, 2], // lizard is bitten by rock & scisors
-            4: [3, 1], // and spock is bitten by paper & lizard
-        }
-
         // Find index of most common player's throw
         let mostCommonThrow = stats.indexOf(Math.max(...stats));
-        console.log("Spock thinks the player will play " + numberToName(mostCommonThrow));
 
         // Select randomly one of the winning throws
         return numberToName(winTable[mostCommonThrow][Math.floor(Math.random() * 2)]);

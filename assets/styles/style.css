@@ -12,6 +12,7 @@ font-family: 'Orbitron', sans-serif; 500 & 700
     --background-color: hsla(0, 0%, 85%, 1);
     --main-color: hsla(204, 42%, 27%, 1);
     --text-color: hsla(0, 0%, 30%, 1);
+    --shadow-effect: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 
 /* Styling of common elements */
@@ -158,6 +159,7 @@ nav li:last-of-type:hover {
     border-radius: 50%;
     text-align: center;
     transition: transform 125ms;
+    box-shadow: var(--shadow-effect);
 }
 
 #decision li:hover {
@@ -172,6 +174,46 @@ nav li:last-of-type:hover {
     width: 100%;
 }
 
+#throw-outcome {
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--message-color);
+    color: var(--message-color);
+    margin: 1rem auto;
+    width: max-content;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    box-shadow: var(--shadow-effect);
+    line-height: 1.5rem;
+}
+
+#throw-outcome span {
+    font-size: 1rem;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 400;
+    color: var(--text-color);
+}
+
+.result-none{
+    opacity: 0;
+}
+
+.result-draw {
+    --message-color: var(--text-color);
+    opacity: 1;
+}
+
+.result-win {
+    --message-color: var(--cordovan);
+    opacity: 1;
+}
+
+.result-defeat {
+    --message-color: var(--main-color);
+    opacity: 1;
+}
+
 #icon-opponent {
     display: block;
     font-size: 2rem;
@@ -183,6 +225,7 @@ nav li:last-of-type:hover {
     border-radius: 50%;
     text-align: center;
     margin: 0 auto;
+    box-shadow: var(--shadow-effect);
 }
 
 /* Rules screen styling */
