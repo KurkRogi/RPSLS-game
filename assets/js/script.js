@@ -186,7 +186,6 @@ function getRealRandom() {
     if (randoms.length > 1) {
         return randoms.pop();
     } else if (randoms.length = 1) {
-        console.log("Getting the last real random from the array");
         localRandoms = true;
         aquireRandoms(RANDOM_BATCH);
         return randoms.pop();
@@ -197,4 +196,3 @@ function getRealRandom() {
         return Math.floor(Math.random() * 5);
     }
 }
-
