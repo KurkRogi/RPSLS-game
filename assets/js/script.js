@@ -6,7 +6,6 @@ const RANDOM_ORG_URL = `https://www.random.org/integers/`;
 
 var randoms;
 var stats;
-var localRandoms = true;
 var outcomes;
 
 const names = ["rock", "paper", "scisors", "lizard", "Spock"];
@@ -57,18 +56,16 @@ function initLoop() {
 
     randoms = JSON.parse(window.localStorage.getItem('randoms'));
     stats = JSON.parse(window.localStorage.getItem('stats'));
-    localRandoms = JSON.parse(window.localStorage.getItem('localRandoms'));
     outcomes = JSON.parse(window.localStorage.getItem('outcomes'));
 
-    // If there are no randoms get some from random.org
-    if (randoms === null) aquireRandoms(RANDOM_BATCH);
+    // If there are no randoms in local storage
+    // or locally generated randoms are in use fetch some
+    if (randoms === null || localRandoms) {aquireRandoms(RANDOM_BATCH);}
    
     // Create stats array if not in local storage
-
-    if (stats === null) stats = [0, 0, 0, 0, 0];
+    if (stats === null) {stats = [0, 0, 0, 0, 0];}
 
     // Create new outcomes if not in storage
-
     if (outcomes === null) outcomes = {
         Spock: [0, 0, 0, 0, 0],
         Sheldon: [0, 0, 0, 0, 0],
@@ -156,7 +153,7 @@ function oppReply (selectedOpponent) {
     // Random throw logic
     else if (selectedOpponent === "Random") {
         
-        return numberToName(localRandoms ? (Math.floor(Math.random() * 5)) : getRealRandom());
+        return numberToName(getRealRandom());
     }
     
     // Spock's logic to play agains most common player throw
@@ -193,7 +190,7 @@ function aquireRandoms (numberToGet) {
     // Calling random.org for a batch of random numbers
     request.send();
 
-    console.log(`Calling ${RANDOM_ORG_URL}?num=${numberToGet}&min=0&max=4&col=1&base=10&format=plain&rnd=new`);
+    console.log(`*** Calling ${RANDOM_ORG_URL}?num=${numberToGet}&min=0&max=4&col=1&base=10&format=plain&rnd=new`);
 
     function processResponse() {
         if (this.status === 200) {
@@ -210,17 +207,25 @@ function aquireRandoms (numberToGet) {
 // Return number from array
 
 function getRealRandom() {
+    
     if (randoms.length > 1) {
+        
+        // Plenty of real randoms in storage so return one
         return randoms.pop();
+
     } else if (randoms.length = 1) {
-        localRandoms = true;
+
+        // last real random about to be used so fetch some
+        // now for the next trow
         aquireRandoms(RANDOM_BATCH);
         return randoms.pop();
+
     } else {
-        // something went wrong scenario failsafe code
-        aquireRandoms(RANDOM_BATCH);
-        localRandoms = true;
+
+        // So the randoms array is empty and new randoms
+        // havent arived yet? Go with a local one for now
         return Math.floor(Math.random() * 5);
+        aquireRandoms(RANDOM_BATCH);
     }
 }
 
@@ -229,6 +234,5 @@ function storeData() {
 
     window.localStorage.setItem("stats", JSON.stringify(stats));
     window.localStorage.setItem("randoms", JSON.stringify(randoms));
-    window.localStorage.setItem("localRandoms", JSON.stringify(localRandoms));
     window.localStorage.setItem("outcomes", JSON.stringify(outcomes));
 }
