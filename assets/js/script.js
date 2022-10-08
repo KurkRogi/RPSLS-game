@@ -7,6 +7,7 @@ const RANDOM_ORG_URL = `https://www.random.org/integers/`;
 var randoms;
 var stats;
 var localRandoms = true;
+var outcomes;
 
 const names = ["rock", "paper", "scisors", "lizard", "Spock"];
 const icons = ["icon-rock", "icon-paper", "icon-scisors", "icon-lizard", "icon-spock"];
@@ -15,11 +16,11 @@ const fontAwesomeIcon = ["far fa-hand-rock", "far fa-hand-paper", "far fa-hand-s
 
 // winTable delivers winning throws for key throw
 const winTable = {
-    0: [1, 4], // rock is bitten by paper & Spock
-    1: [2, 3], // paper is bitten by scisors & lizard
-    2: [0, 4], // scisors is bitten by rock & Spock
-    3: [0, 2], // lizard is bitten by rock & scisors
-    4: [3, 1], // and Spock is bitten by paper & lizard
+    0: [1, 4], // rock is beaten by paper & Spock
+    1: [2, 3], // paper is beaten by scisors & lizard
+    2: [0, 4], // scisors is beaten by rock & Spock
+    3: [0, 2], // lizard is beaten by rock & scisors
+    4: [3, 1], // and Spock is beaten by paper & lizard
 }
 
 
@@ -56,6 +57,8 @@ function initLoop() {
 
     randoms = JSON.parse(window.localStorage.getItem('randoms'));
     stats = JSON.parse(window.localStorage.getItem('stats'));
+    localRandoms = JSON.parse(window.localStorage.getItem('localRandoms'));
+    outcomes = JSON.parse(window.localStorage.getItem('outcomes'));
 
     // If there are no randoms get some from random.org
     if (randoms === null) aquireRandoms(RANDOM_BATCH);
@@ -63,6 +66,14 @@ function initLoop() {
     // Create stats array if not in local storage
 
     if (stats === null) stats = [0, 0, 0, 0, 0];
+
+    // Create new outcomes if not in storage
+
+    if (outcomes === null) outcomes = {
+        Spock: [0, 0, 0, 0, 0],
+        Sheldon: [0, 0, 0, 0, 0],
+        Random: [0, 0, 0, 0, 0]
+    }
 }
 
 /*
@@ -91,12 +102,15 @@ function gameThrow () {
     let oppThrow;
     let outcomeMessage = "";
 
+
+    console.log("--- Player throws");
     // Increase corresponding element of the stats array
     stats[playersThrow] += 1;
 
     // Find out which opponent was selected for this throw
     // and call oppReply to apply corresponding strategy
-    oppThrow = nameToNumber(oppReply(document.getElementById("opp-select-game").value));
+    let oppName = document.getElementById("opp-select-game").value;
+    oppThrow = nameToNumber(oppReply(oppName));
 
     // Display opponent's throw icon
     document.getElementById("icon-opponent").firstChild.classList = fontAwesomeIcon[oppThrow];
@@ -104,6 +118,9 @@ function gameThrow () {
     // Find the outcome of throw
 
     let messageContainer = document.getElementById("throw-outcome");
+
+    console.log("Player throws " + playersThrow);
+    console.log("Opponent "+ oppName + " throws " + oppThrow);
 
     if (oppThrow === playersThrow) {
         outcomeMessage = "It's a draw!<br><span>Please play again</span>";
@@ -114,9 +131,17 @@ function gameThrow () {
     } else {
         outcomeMessage = `You've won! <br><span>${numberToName(playersThrow)} beats ${numberToName(oppThrow)}</span>`;
         messageContainer.classList = "result-win";
+        // Increase array element corresponding to players decision
+        // for the opponent played against
+        outcomes[oppName][playersThrow] += 1;
     }
 
     messageContainer.innerHTML = outcomeMessage;
+    console.log(outcomeMessage);
+    console.log("The array for this opponent is " + outcomes[oppName]);
+
+    // Store game data
+    storeData();
 }
 
 // Make decision on opponent's throw and return decision
@@ -124,12 +149,12 @@ function gameThrow () {
 function oppReply (selectedOpponent) {
 
     // Sheldon's logic to always throw Spock
-    if (selectedOpponent === "sheldon") {
+    if (selectedOpponent === "Sheldon") {
         return "Spock";
     }
     
     // Random throw logic
-    else if (selectedOpponent === "random") {
+    else if (selectedOpponent === "Random") {
         
         return numberToName(localRandoms ? (Math.floor(Math.random() * 5)) : getRealRandom());
     }
@@ -168,6 +193,8 @@ function aquireRandoms (numberToGet) {
     // Calling random.org for a batch of random numbers
     request.send();
 
+    console.log(`Calling ${RANDOM_ORG_URL}?num=${numberToGet}&min=0&max=4&col=1&base=10&format=plain&rnd=new`);
+
     function processResponse() {
         if (this.status === 200) {
             // remove white spaces from the response text, covert to array
@@ -195,4 +222,13 @@ function getRealRandom() {
         localRandoms = true;
         return Math.floor(Math.random() * 5);
     }
+}
+
+function storeData() {
+    console.log ("Storing game data");
+
+    window.localStorage.setItem("stats", JSON.stringify(stats));
+    window.localStorage.setItem("randoms", JSON.stringify(randoms));
+    window.localStorage.setItem("localRandoms", JSON.stringify(localRandoms));
+    window.localStorage.setItem("outcomes", JSON.stringify(outcomes));
 }
