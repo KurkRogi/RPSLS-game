@@ -58,18 +58,26 @@ function initLoop() {
     stats = JSON.parse(window.localStorage.getItem('stats'));
     outcomes = JSON.parse(window.localStorage.getItem('outcomes'));
 
-    // If there are no randoms in local storage
-    // or locally generated randoms are in use fetch some
-    if (randoms === null || localRandoms) {aquireRandoms(RANDOM_BATCH);}
+    // If there are no randoms in local storage fetch some
+    if (randoms === null) {aquireRandoms(RANDOM_BATCH);}
    
     // Create stats array if not in local storage
     if (stats === null) {stats = [0, 0, 0, 0, 0];}
 
     // Create new outcomes if not in storage
     if (outcomes === null) outcomes = {
-        Spock: [0, 0, 0, 0, 0],
-        Sheldon: [0, 0, 0, 0, 0],
-        Random: [0, 0, 0, 0, 0]
+        wins: {
+            Spock: [0, 0, 0, 0, 0],
+            Sheldon: [0, 0, 0, 0, 0],
+            Random: [0, 0, 0, 0, 0]},
+        defeats: {
+            Spock: [0, 0, 0, 0, 0],
+            Sheldon: [0, 0, 0, 0, 0],
+            Random: [0, 0, 0, 0, 0]},
+        draws: {
+            Spock: [0, 0, 0, 0, 0],
+            Sheldon: [0, 0, 0, 0, 0],
+            Random: [0, 0, 0, 0, 0]}
     }
 }
 
@@ -122,15 +130,17 @@ function gameThrow () {
     if (oppThrow === playersThrow) {
         outcomeMessage = "It's a draw!<br><span>Please play again</span>";
         messageContainer.classList = "result-draw";
+        outcomes['draws'][oppName][playersThrow] += 1;
     } else if (winTable[playersThrow].includes(oppThrow)) {
         outcomeMessage = `You've lost! <br><span>${numberToName(oppThrow)} beats ${numberToName(playersThrow)}</span>`;
         messageContainer.classList = "result-defeat";
+        outcomes['defeats'][oppName][playersThrow] += 1;
     } else {
         outcomeMessage = `You've won! <br><span>${numberToName(playersThrow)} beats ${numberToName(oppThrow)}</span>`;
         messageContainer.classList = "result-win";
         // Increase array element corresponding to players decision
         // for the opponent played against
-        outcomes[oppName][playersThrow] += 1;
+        outcomes['wins'][oppName][playersThrow] += 1;
     }
 
     messageContainer.innerHTML = outcomeMessage;
