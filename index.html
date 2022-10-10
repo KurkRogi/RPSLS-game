@@ -13,6 +13,9 @@
     
     <!-- Font Awesome Incons -->
     <script src="https://kit.fontawesome.com/7d92684655.js" crossorigin="anonymous"></script>
+
+    <!-- Google Charts code -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     
     <title>RPSLS Game</title>
 </head>
@@ -25,7 +28,7 @@
         <nav>
             <ul>
                 <li id="game-rules-button">Game Rules</li>
-                <li id="game statistics-button">Your Stats</li>
+                <li id="game-statistics-button">Your Stats</li>
             </ul>
         </nav>
         <section id="oponent-selection">
@@ -78,7 +81,8 @@
     <div id="stats-screen" class="screen">
         <div class="close-icon"><i class="far fa-times-circle"></i></div>
         <h1>You game statistics are as follows:</h1>
-        <div>Percentage of won games graph here</div>
+        <p>Percentage of wins against opponents [%]</p>
+        <div id="wins-chart"></div>
         <label for="opp-select-stats">Opponent</label>
             <select name="opponent" id="opp-select-stats">
                 <option value="Spock">Mr Spock</option>

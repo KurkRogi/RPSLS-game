@@ -35,8 +35,9 @@ function initLoop() {
         screen.classList.toggle("visible");
     });
 
-    document.getElementById("game statistics-button").addEventListener( 'click', e => {
+    document.getElementById("game-statistics-button").addEventListener( 'click', e => {
         const screen = document.getElementById("stats-screen");
+        drawCharts();
         screen.classList.toggle("visible");
     });
 
@@ -78,7 +79,14 @@ function initLoop() {
             Spock: [0, 0, 0, 0, 0],
             Sheldon: [0, 0, 0, 0, 0],
             Random: [0, 0, 0, 0, 0]}
-    }
+    };
+
+    // Google Charts code:
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', {'packages':['corechart']});
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawCharts);
 }
 
 /*
@@ -234,8 +242,8 @@ function getRealRandom() {
 
         // So the randoms array is empty and new randoms
         // havent arived yet? Go with a local one for now
-        return Math.floor(Math.random() * 5);
         aquireRandoms(RANDOM_BATCH);
+        return Math.floor(Math.random() * 5);
     }
 }
 
@@ -246,3 +254,75 @@ function storeData() {
     window.localStorage.setItem("randoms", JSON.stringify(randoms));
     window.localStorage.setItem("outcomes", JSON.stringify(outcomes));
 }
+
+function drawCharts() {
+
+    // Calculate data for chart one
+    let percenSpock, percentSheldon, percentRandom;
+    
+    percentSpock = calculatePercentage('Spock');
+    percentSheldon = calculatePercentage('Sheldon');
+    percentRandom = calculatePercentage('Random');
+
+    console.log(percentSpock);
+
+    // Create the data table.
+    var chartOneData = new google.visualization.DataTable();
+    chartOneData.addColumn('string', 'Opponents');
+    chartOneData.addColumn('number', 'Wins');
+    chartOneData.addColumn({role: 'style'});
+    chartOneData.addColumn({role: 'annotation'});
+    chartOneData.addRows([
+      ['Mr Spock', percentSpock, '#924f55','Mr Spock'],
+      ['Dr Cooper', percentSheldon, '#3c6f72', 'Dr Cooper'],
+      ['Prof. Randomius', percentRandom, '#284b62', 'Prof. Randomius']
+    ]);
+
+    // Set chart options
+    var chartOneOptions = {
+      titlePosition: 'none',
+      backgroundColor: '#d9d9d9',
+      chartArea: {
+        left: '5%',
+        top: '5%',
+        width:'90%',
+        height:'70%'},
+        title:'Percentage of winning throws against oponents [%]',
+        titleTextStyle: {
+        color: '#4d4d4d',
+        bold: false
+      },
+      fontName: 'Inter Tight',
+      fontSize: 16,
+      legend: {
+        position: 'none'
+      },
+      vAxis: {
+        textPosition: 'none'
+      },
+      hAxis: {
+        maxValue: 1,
+        textPosition: 'out',
+        format:'percent',
+        ticks: [0, 0.25, 0.50, 0.75, 1]
+      }
+    };
+
+    // Instantiate and draw chart one, passing in data & options.
+    var chart = new google.visualization.BarChart(document.getElementById('wins-chart'));
+    chart.draw(chartOneData, chartOneOptions);
+  }
+
+  function calculatePercentage(opponent) {
+    let total = 0, wins = 0;
+   
+    // Toatal of won games
+    for (let i of outcomes.wins[opponent]) wins += i;
+
+    // Total of all games played
+    for (let i of outcomes.wins[opponent]) total += i;
+    for (let i of outcomes.defeats[opponent]) total += i;
+    for (let i of outcomes.draws[opponent]) total += i;
+
+    return wins / total;
+  }
