@@ -81,15 +81,21 @@
     <div id="stats-screen" class="screen">
         <div class="close-icon"><i class="far fa-times-circle"></i></div>
         <h1>You game statistics are as follows:</h1>
+
         <p>Percentage of wins against opponents [%]</p>
         <div id="wins-chart"></div>
-        <label for="opp-select-stats">Opponent</label>
+
+        <p>Winning throws against opponent [%]</p>
+        <div id="chart-selector">
+            <label for="opp-select-stats">Opponent</label>
             <select name="opponent" id="opp-select-stats">
                 <option value="Spock">Mr Spock</option>
                 <option value="Sheldon">Dr Sheldon Cooper</option>
                 <option value="Random">Prof. Randomius</option>
             </select>
-        <div>Winning hands graph</div>
+        </div>
+        <div id="throws-chart"></div>
+        <div id="chart-two-legend"></div>
     </div>
 </body>
 <script src="./assets/js/script.js"></script>
