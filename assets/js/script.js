@@ -4,10 +4,10 @@
 const RANDOM_BATCH = 5; // Holds number of random numbers to fetch from random.org
 const RANDOM_ORG_URL = `https://www.random.org/integers/`;
 
-var randoms;        // Array holding real random numbers from random.org
-var stats;          // Holds previous players throws for Spock's game logic
-var outcomes;       // Holds all game outcomes for game statistics
-var chartsReady;    // Flags if google charts are loaded and ready to drwa
+var randoms;                // Array holding real random numbers from random.org
+var stats;                  // Holds previous players throws for Spock's game logic
+var outcomes;               // Holds all game outcomes for game statistics
+var chartsReady = false;    // Flags if google charts are loaded and ready to drwa
 
 
 // Utility arrays to convert indexes to strings used in various functions
@@ -90,8 +90,8 @@ function initLoop() {
     // Load the Visualization API and the corechart package.
     google.charts.load('current', {'packages':['corechart']});
 
-    // Set a callback to run when the Google Visualization API is loaded.
-    google.charts.setOnLoadCallback(drawCharts);
+    // Set a flag indicating that the google charts API is loaded.
+    google.charts.setOnLoadCallback(() => chartsReady = true);
 }
 
 /*
@@ -261,6 +261,8 @@ function storeData() {
 }
 
 function drawCharts() {
+
+    if (!chartsReady) return;
 
     // Calculate data for chart one
     let percenSpock, percentSheldon, percentRandom;
