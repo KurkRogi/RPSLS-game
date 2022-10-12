@@ -27,6 +27,9 @@ body {
     line-height: 1.4;
     background-color: var(--background-color);
     color: var(--text-color);
+    min-width: 320px;
+    max-width: 480px;
+    margin: 0 auto;
 }
 
 select {
@@ -64,9 +67,11 @@ strong {
 
 .screen {
     min-height: 100vh;
-    min-width: 320px;
+    width: 100%;
+    box-sizing: border-box;
+    /* min-width: 320px;
     max-width: 480px;
-    margin: 0 auto;
+    margin: 0 auto; */
     padding: 1rem;
     /* Visual aid only - remove when done */
     border: 1px solid red;
@@ -293,12 +298,12 @@ nav li:last-of-type:hover {
 
 #wins-chart {
     margin: 1rem auto;
-    width: fit-content;
+    width: 100%;
 }
 
 #chart-selector {
     margin: 2rem auto;
-    width: fit-content;
+    text-align: center;
 }
 
 #chart-two-legend {
@@ -321,4 +326,9 @@ nav li:last-of-type:hover {
     border-radius: 50%;
     text-align: center;
     background-color: var(--text-color);
+}
+
+#throws-chart {
+    width: 80%;
+    margin: 0 auto;
 }

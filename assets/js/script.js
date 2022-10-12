@@ -39,7 +39,8 @@ function initLoop() {
 
     document.getElementById("game-statistics-button").addEventListener( 'click', e => {
         const screen = document.getElementById("stats-screen");
-        drawCharts();
+        drawWinsChart();
+        drawThrowsChart();
         screen.classList.toggle("visible");
     });
 
@@ -55,7 +56,7 @@ function initLoop() {
     }
 
     // Attach event handler to chart selection feature
-    document.getElementById('opp-select-stats').addEventListener('input', drawCharts);
+    document.getElementById('opp-select-stats').addEventListener('input', drawThrowsChart);
  
 
     // Pull data from local storage
@@ -260,16 +261,14 @@ function storeData() {
     window.localStorage.setItem("outcomes", JSON.stringify(outcomes));
 }
 
-function drawCharts() {
+function drawWinsChart() {
 
     if (!chartsReady) return;
 
     // Calculate data for chart one
-    let percenSpock, percentSheldon, percentRandom;
-    
-    percentSpock = calculatePercentage('Spock');
-    percentSheldon = calculatePercentage('Sheldon');
-    percentRandom = calculatePercentage('Random');
+    let percentSpock = calculatePercentage('Spock');
+    let percentSheldon = calculatePercentage('Sheldon');
+    let percentRandom = calculatePercentage('Random');
 
     // Create the data table for chart one
     var chartOneData = new google.visualization.DataTable();
@@ -288,9 +287,9 @@ function drawCharts() {
       titlePosition: 'none',
       backgroundColor: '#d9d9d9',
       chartArea: {
-        left: '5%',
-        top: '5%',
-        width:'90%',
+        // left: '5%',
+        top: '10%',
+        width:'80%',
         height:'70%'},
       fontName: 'Inter Tight',
       fontSize: 16,
@@ -311,26 +310,33 @@ function drawCharts() {
     // Instantiate and draw chart one, passing in data & options.
     var chart = new google.visualization.BarChart(document.getElementById('wins-chart'));
     chart.draw(chartOneData, chartOneOptions);
+}
 
-    // Calculate data for chart one
+function drawThrowsChart() {
+
+    if (!chartsReady) return;
+
+    // Calculate data for chart two
     let opponent = document.getElementById('opp-select-stats').value;
     let totalWins = outcomes['wins'][opponent].reduce((accu, value) => accu + value);
-    colorsForChart = ['#924f55', '#3c6f72', '#ff7733', '#284b62', '#4d4d4d']
+    
+    let colorsForChart = ['#924f55', '#3c6f72', '#ff7733', '#284b62', '#4d4d4d']
+    
     let targetForLegend = document.getElementById('chart-two-legend');
     targetForLegend.innerHTML = "";
 
-    // Create the data table for chart two
-    var chartTwoData = new google.visualization.DataTable();
+    // Create data table for chart two
+    let chartTwoData = new google.visualization.DataTable();
     chartTwoData.addColumn('string', 'Throws');
     chartTwoData.addColumn('number', 'Wins');
     
     for (let i = 0; i <5; i++) {
         
+        // outcomes['wins'][opponent][i] is how many wins with this throw
         let percentage = totalWins > 0 ? outcomes['wins'][opponent][i] / totalWins : 0;
 
         // Insert data for chart two
         // names[i] is the name of throw
-        // outcomes['wins'][opponent][i] / totalWins is how many wins with this throw
         chartTwoData.addRow([names[i], percentage]);
 
         // Add legend below chart two
@@ -349,10 +355,10 @@ function drawCharts() {
       titlePosition: 'none',
       backgroundColor: '#d9d9d9',
       chartArea: {
-          left: '5%',
-          top: '5%',
-          width:'100%',
-          height: '100%'
+    //       left: '5%',
+    //       top: '5%',
+          width:'90%',
+          height: '90%'
       },
       fontName: 'Arial',
       fontSize: 16,
@@ -365,8 +371,7 @@ function drawCharts() {
     // Instantiate and draw chart two, passing in data & options.
     var chartTwo = new google.visualization.PieChart(document.getElementById('throws-chart'));
     chartTwo.draw(chartTwoData, chartTwoOptions);
-
-  }
+}
 
   function calculatePercentage(opponent) {
     let total = 0, wins = 0;
