@@ -1,19 +1,23 @@
 
 // Global variables
 
-const RANDOM_BATCH = 5;
+const RANDOM_BATCH = 5; // Holds number of random numbers to fetch from random.org
 const RANDOM_ORG_URL = `https://www.random.org/integers/`;
 
-var randoms;
-var stats;
-var outcomes;
+var randoms;        // Array holding real random numbers from random.org
+var stats;          // Holds previous players throws for Spock's game logic
+var outcomes;       // Holds all game outcomes for game statistics
+var chartsReady;    // Flags if google charts are loaded and ready to drwa
+
+
+// Utility arrays to convert indexes to strings used in various functions
 
 const names = ["rock", "paper", "scisors", "lizard", "Spock"];
 const icons = ["icon-rock", "icon-paper", "icon-scisors", "icon-lizard", "icon-spock"];
 const fontAwesomeIcon = ["far fa-hand-rock", "far fa-hand-paper", "far fa-hand-scissors",
 "far fa-hand-lizard", "far fa-hand-spock"];
 
-// winTable delivers winning throws for key throw
+// winTable delivers winning throws agains throw as a key
 const winTable = {
     0: [1, 4], // rock is beaten by paper & Spock
     1: [2, 3], // paper is beaten by scisors & lizard
@@ -21,8 +25,6 @@ const winTable = {
     3: [0, 2], // lizard is beaten by rock & scisors
     4: [3, 1], // and Spock is beaten by paper & lizard
 }
-
-
 
 window.addEventListener("load", initLoop);
 
