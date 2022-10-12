@@ -355,8 +355,6 @@ function drawThrowsChart() {
       titlePosition: 'none',
       backgroundColor: '#d9d9d9',
       chartArea: {
-    //       left: '5%',
-    //       top: '5%',
           width:'90%',
           height: '90%'
       },

@@ -268,6 +268,9 @@ nav li:last-of-type:hover {
 .close-icon {
     font-size: 2rem;
     text-align: right;
+    position: sticky;
+    top: 1rem;
+    z-index: 1;
 }
 
 .close-icon:hover {
@@ -286,7 +289,7 @@ nav li:last-of-type:hover {
     text-align: center;
     font-size: 1.2rem;
     margin-bottom: 1rem;
-    margin-top: 4em;
+    margin-top: 3em;
 }
 
 #stats-screen h1 {
