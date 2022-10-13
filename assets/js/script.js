@@ -121,7 +121,6 @@ function gameThrow () {
     let oppThrow;
     let outcomeMessage = "";
 
-
     // Increase corresponding element of the stats array
     stats[playersThrow] += 1;
 
@@ -164,8 +163,6 @@ function gameThrow () {
     console.log("Wins: " + outcomes['wins'][oppName]);
     console.log("Draws: " + outcomes['draws'][oppName]);
     console.log("Defeats: " + outcomes['defeats'][oppName]);
-
-    
 
     // Store game data
     storeData();
