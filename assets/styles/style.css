@@ -72,10 +72,7 @@ strong {
     min-height: 100vh;
     width: 100%;
     box-sizing: border-box;
-    padding-top: 2rem;
-
-    /* Visual aid only - remove when done */
-    /* border: 1px solid red; */
+    padding-top: 1rem;
 }
 
 /* Main game screen styles */
@@ -117,10 +114,6 @@ nav li:first-of-type {
     background: linear-gradient(135deg, var(--ming) 0%, var(--main-color) 100%);
 }
 
-nav li:first-of-type:hover {
-    transform: translateX(-0.5rem) scale(120%);
-}
-
 nav li:last-of-type {
     transform: translateX(1rem);
     padding-left: 2.5rem;
@@ -130,8 +123,22 @@ nav li:last-of-type {
 
 }
 
-nav li:last-of-type:hover {
+nav li:first-of-type:active {
+    transform: translateX(-0.5rem) scale(120%);
+}
+
+nav li:last-of-type:active {
     transform: translateX(0.5rem) scale(120%);
+}
+
+@media (hover: hover) {
+    nav li:first-of-type:hover {
+        transform: translateX(-0.5rem) scale(120%);
+    }
+    
+    nav li:last-of-type:hover {
+        transform: translateX(0.5rem) scale(120%);
+    }
 }
 
 /* Opponent selection styling */
@@ -174,9 +181,15 @@ nav li:last-of-type:hover {
     box-shadow: var(--shadow-effect);
 }
 
-#decision li:hover {
-    cursor: pointer;
+#decision li:active {
     transform: scale(120%);
+}
+
+@media (hover: hover) {
+    #decision li:hover {
+        cursor: pointer;
+        transform: scale(120%);
+    }
 }
 
 /* Opponent trow section */
@@ -286,7 +299,7 @@ nav li:last-of-type:hover {
 }
 
 #rules-screen img {
-    width: 80%;
+    width: 65%;
     display: block;
     margin: 2rem auto;
 }

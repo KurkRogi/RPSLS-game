@@ -1,7 +1,7 @@
 
 // Global variables
 
-const RANDOM_BATCH = 5; // Holds number of random numbers to fetch from random.org
+const RANDOM_BATCH = 100; // Holds number of random numbers to fetch from random.org
 const RANDOM_ORG_URL = `https://www.random.org/integers/`;
 
 var randoms;                // Array holding real random numbers from random.org
@@ -122,7 +122,6 @@ function gameThrow () {
     let outcomeMessage = "";
 
 
-    console.log("--- Player throws");
     // Increase corresponding element of the stats array
     stats[playersThrow] += 1;
 
@@ -138,19 +137,22 @@ function gameThrow () {
 
     let messageContainer = document.getElementById("throw-outcome");
 
-    console.log("Player throws " + playersThrow);
-    console.log("Opponent "+ oppName + " throws " + oppThrow);
+    console.log("\n%c--- Player throws " + names[playersThrow] + "---", "font-weight: bold;");
+    console.log("Opponent "+ oppName + " throws " + names[oppThrow]);
 
     if (oppThrow === playersThrow) {
         outcomeMessage = "It's a draw!<br><span>Please play again</span>";
+        console.log("It's a draw! Please play again.");
         messageContainer.classList = "result-draw";
         outcomes['draws'][oppName][playersThrow] += 1;
     } else if (winTable[playersThrow].includes(oppThrow)) {
         outcomeMessage = `You've lost! <br><span>${numberToName(oppThrow)} beats ${numberToName(playersThrow)}</span>`;
+        console.log(`You've lost! ${numberToName(oppThrow)} beats ${numberToName(playersThrow)}`)
         messageContainer.classList = "result-defeat";
         outcomes['defeats'][oppName][playersThrow] += 1;
     } else {
         outcomeMessage = `You've won! <br><span>${numberToName(playersThrow)} beats ${numberToName(oppThrow)}</span>`;
+        console.log(`You've won! ${numberToName(playersThrow)} beats ${numberToName(oppThrow)}`)
         messageContainer.classList = "result-win";
         // Increase array element corresponding to players decision
         // for the opponent played against
@@ -158,8 +160,12 @@ function gameThrow () {
     }
 
     messageContainer.innerHTML = outcomeMessage;
-    console.log(outcomeMessage);
-    console.log("The array for this opponent is " + outcomes[oppName]);
+    console.log("Arrays for this opponent are:");
+    console.log("Wins: " + outcomes['wins'][oppName]);
+    console.log("Draws: " + outcomes['draws'][oppName]);
+    console.log("Defeats: " + outcomes['defeats'][oppName]);
+
+    
 
     // Store game data
     storeData();
