@@ -124,20 +124,20 @@ nav li:last-of-type {
 }
 
 nav li:first-of-type:active {
-    transform: translateX(-0.5rem) scale(120%);
+    transform: translateX(-0.5rem) scale(1.2);
 }
 
 nav li:last-of-type:active {
-    transform: translateX(0.5rem) scale(120%);
+    transform: translateX(0.5rem) scale(1.2);
 }
 
 @media (hover: hover) {
     nav li:first-of-type:hover {
-        transform: translateX(-0.5rem) scale(120%);
+        transform: translateX(-0.5rem) scale(1.2);
     }
     
     nav li:last-of-type:hover {
-        transform: translateX(0.5rem) scale(120%);
+        transform: translateX(0.5rem) scale(1.2);
     }
 }
 
@@ -182,13 +182,13 @@ nav li:last-of-type:active {
 }
 
 #decision li:active {
-    transform: scale(120%);
+    transform: scale(1.2);
 }
 
 @media (hover: hover) {
     #decision li:hover {
         cursor: pointer;
-        transform: scale(120%);
+        transform: scale(1.2);
     }
 }
 
