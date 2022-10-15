@@ -1,4 +1,3 @@
-
 // Global variables
 
 const RANDOM_BATCH = 100; // Holds number of random numbers to fetch from random.org
@@ -93,20 +92,6 @@ function initLoop() {
 
     // Set a flag indicating that the google charts API is loaded.
     google.charts.setOnLoadCallback(() => chartsReady = true);
-}
-
-/*
-Function generates given number of random numbers 0-4
-and returns an array
-*/
-
-function generateLocalRandoms(number) {
-    let array = [];
-    
-    for (let i = 0; i < number; i++) {
-        array.push(Math.floor(Math.random() * 5))
-    }
-    return array;
 }
 
 /*
@@ -209,7 +194,7 @@ function nameToNumber (name) {
 
 function aquireRandoms (numberToGet) {
     
-    request = new XMLHttpRequest();
+    let request = new XMLHttpRequest();
 
     request.addEventListener("load", processResponse);
     request.open("GET", `${RANDOM_ORG_URL}?num=${numberToGet}&min=0&max=4&col=1&base=10&format=plain&rnd=new`);
@@ -224,7 +209,6 @@ function aquireRandoms (numberToGet) {
             // remove white spaces from the response text, covert to array
             // and convert array elements to integers (from strings)
             randoms = this.responseText.trim().split("\n").map( rNumber => parseInt(rNumber));
-            localRandoms = false;
         } else {
             console.log("Failed to get randoms. Status " + this.status);
         }
@@ -344,7 +328,7 @@ function drawThrowsChart() {
 
         // Add legend below chart two
         if(percentage) {
-            newIElement = document.createElement('i');
+            let newIElement = document.createElement('i');
             newIElement.classList = fontAwesomeIcon[i];
             newIElement.setAttribute("style", `background-color: ${colorsForChart[i]}`);
             targetForLegend.appendChild(newIElement);
